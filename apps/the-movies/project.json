@@ -15,11 +15,12 @@
         "polyfills": "apps/the-movies/src/polyfills.ts",
         "tsConfig": "apps/the-movies/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
-        "assets": [
-          "apps/the-movies/src/favicon.ico",
-          "apps/the-movies/src/assets"
+        "assets": ["apps/the-movies/src/favicon.ico", "apps/the-movies/src/assets"],
+        "styles": [
+          "apps/the-movies/src/styles.scss",
+          "node_modules/bootstrap/dist/css/bootstrap.css",
+          "node_modules/font-awesome/css/font-awesome.css"
         ],
-        "styles": ["apps/the-movies/src/styles.scss"],
         "scripts": []
       },
       "configurations": {
@@ -76,10 +77,7 @@
     "lint": {
       "executor": "@nrwl/linter:eslint",
       "options": {
-        "lintFilePatterns": [
-          "apps/the-movies/**/*.ts",
-          "apps/the-movies/**/*.html"
-        ]
+        "lintFilePatterns": ["apps/the-movies/**/*.ts", "apps/the-movies/**/*.html"]
       }
     },
     "test": {

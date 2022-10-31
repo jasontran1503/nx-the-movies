@@ -1,0 +1,10 @@
+<div class="web">
+  <nx-the-movies-side-bar
+    class="web__side-bar"
+    [class.opened]="isShowSidebar"
+  ></nx-the-movies-side-bar>
+  <nx-the-movies-navbar
+    class="web__nav-bar"
+    (showSidebar)="showSidebar($event)"
+  ></nx-the-movies-navbar>
+</div>
