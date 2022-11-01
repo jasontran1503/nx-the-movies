@@ -21,7 +21,13 @@
       opacity: 0.6;
       text-transform: uppercase;
     }
-    .rating {
+  }
+}
+
+@media screen and (max-width: 620px) {
+  .movies-item {
+    &__detail {
+      padding: 1rem;
     }
   }
 }

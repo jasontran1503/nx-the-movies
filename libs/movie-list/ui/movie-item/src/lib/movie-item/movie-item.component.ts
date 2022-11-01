@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
+import { StarRatingComponent } from '@nx-the-movies/movie-list/ui/star-rating';
 
 @Component({
   selector: 'nx-the-movies-movie-item',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, StarRatingComponent],
   templateUrl: './movie-item.component.html',
   styleUrls: ['./movie-item.component.scss']
 })

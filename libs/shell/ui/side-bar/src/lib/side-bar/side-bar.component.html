@@ -3,30 +3,33 @@
   <div class="side-bar__nav">
     <div class="nav-list">
       <h3>Discover</h3>
-      <div class="nav-item" [routerLink]="['/list']" [queryParams]="{ category: 'popular' }">
-        <i class="fa fa-heart" aria-hidden="true"></i>
-        <span>Popular</span>
-      </div>
-      <div class="nav-item" [routerLink]="['/list']" [queryParams]="{ category: 'top-rated' }">
-        <i class="fa fa-fire" aria-hidden="true"></i>
-        <span>Top rated</span>
-      </div>
-      <div class="nav-item" [routerLink]="['/list']" [queryParams]="{ category: 'upcoming' }">
-        <i class="fa fa-calendar-o" aria-hidden="true"></i>
-        <span>Upcoming</span>
+      <div
+        *ngFor="let category of categories"
+        class="nav-item"
+        [routerLink]="['/list']"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+        [queryParams]="{ category: category.name }"
+        (click)="onCloseSidebar()"
+      >
+        <i class="fa fa-{{ category.icon }}" aria-hidden="true"></i>
+        <span>{{ category.name }}</span>
       </div>
     </div>
 
     <div class="nav-list">
       <h3>GENRES</h3>
       <div
+        *ngFor="let genre of genres"
         class="nav-item"
         [routerLink]="['/list']"
-        [queryParams]="{ genre: 10 }"
-        *ngFor="let item of [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+        [queryParams]="{ genre: genre.name.toLowerCase() }"
+        (click)="onCloseSidebar()"
       >
         <i class="fa fa-dot-circle-o" aria-hidden="true"></i>
-        <span>Popular</span>
+        <span>{{ genre.name }}</span>
       </div>
     </div>
   </div>

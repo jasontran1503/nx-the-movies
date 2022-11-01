@@ -22,6 +22,10 @@
         margin: 1rem;
         text-transform: uppercase;
         font-size: var(--text-sm);
+        color: var(--palette-text-primary);
+      }
+      .active {
+        color: #b80040;
       }
       .nav-item {
         padding: 1rem 2rem;

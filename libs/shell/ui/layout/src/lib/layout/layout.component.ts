@@ -16,4 +16,8 @@ export class LayoutComponent {
   showSidebar(value: boolean) {
     this.isShowSidebar = value;
   }
+
+  closeSidebar() {
+    this.isShowSidebar = false;
+  }
 }
