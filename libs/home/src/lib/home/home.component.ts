@@ -1,9 +1,9 @@
-import { MovieListComponent } from '@nx-the-movies/movie-list/feature/movie-list';
-import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { takeUntil } from 'rxjs';
+import { MovieListComponent } from '@nx-the-movies/movie-list/feature/movie-list';
 import { DestroyService } from '@nx-the-movies/shared/data-access/common';
+import { takeUntil } from 'rxjs';
 
 @Component({
   selector: 'nx-the-movies-home',

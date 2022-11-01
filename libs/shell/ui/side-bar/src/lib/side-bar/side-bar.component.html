@@ -20,7 +20,7 @@
     <div class="nav-list">
       <h3>GENRES</h3>
       <div
-        *ngFor="let genre of genres"
+        *ngFor="let genre of genres$ | async"
         class="nav-item"
         [routerLink]="['/list']"
         routerLinkActive="active"

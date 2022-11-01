@@ -1,5 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Component, Input, OnInit } from '@angular/core';
 import { MovieItemComponent } from '@nx-the-movies/movie-list/ui/movie-item';
 
 @Component({

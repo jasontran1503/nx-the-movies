@@ -2,6 +2,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { enableProdMode, importProvidersFrom } from '@angular/core';
 import { bootstrapApplication } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
+import { providersInterceptor } from '@nx-the-movies/shared/data-access/common';
+import { getAppConfigProvider } from '@nx-the-movies/shared/data-access/models';
 import { AppComponent } from './app/app.component';
 import { environment } from './environments/environment';
 
@@ -27,6 +29,8 @@ bootstrapApplication(AppComponent, {
         }
       ),
       HttpClientModule
-    )
+    ),
+    providersInterceptor(),
+    getAppConfigProvider(environment)
   ]
 }).catch((err) => console.error(err));

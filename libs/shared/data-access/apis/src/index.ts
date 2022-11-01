@@ -1,1 +1,1 @@
-export * from './lib/shared-data-access-apis.module';
+export * from './lib/genre.service';

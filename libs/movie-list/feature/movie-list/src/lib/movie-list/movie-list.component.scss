@@ -18,6 +18,13 @@
     display: grid;
     grid-template-columns: auto auto auto;
     gap: 2rem 2rem;
+    .empty {
+      color: var(--palette-text-primary);
+      font-size: 30px;
+      .fa {
+        margin-left: 10px;
+      }
+    }
   }
 }
 

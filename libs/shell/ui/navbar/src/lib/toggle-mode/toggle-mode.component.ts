@@ -10,4 +10,13 @@ import { Component } from '@angular/core';
 })
 export class ToggleModeComponent {
   light = true;
+
+  changeTheme() {
+    this.light = !this.light;
+    if (this.light) {
+      document.body.className = 'light';
+    } else {
+      document.body.className = 'dark';
+    }
+  }
 }

@@ -1,6 +1,6 @@
 <div class="toggle">
   <i class="fa fa-sun-o" aria-hidden="true"></i>
-  <div (click)="light = !light">
+  <div (click)="changeTheme()">
     <i class="fa fa-toggle-on" *ngIf="light; else dark" aria-hidden="true"></i>
     <ng-template #dark>
       <i class="fa fa-toggle-off" aria-hidden="true"></i>

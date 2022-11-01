@@ -1,6 +1,6 @@
 /* eslint-disable */
 export default {
-  displayName: 'movie-list-ui-star-rating',
+  displayName: 'shared-data-access-models',
   preset: '../../../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
   globals: {
@@ -9,7 +9,7 @@ export default {
       stringifyContentPathRegex: '\\.(html|svg)$'
     }
   },
-  coverageDirectory: '../../../../coverage/libs/movie-list/ui/star-rating',
+  coverageDirectory: '../../../../coverage/libs/shared/data-access/models',
   transform: {
     '^.+\\.(ts|mjs|js|html)$': 'jest-preset-angular'
   },

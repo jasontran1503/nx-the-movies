@@ -1,0 +1,8 @@
+<div class="rating">
+  <ng-container *ngFor="let item of starsRating" [ngSwitch]="item">
+    <i *ngSwitchCase="1" class="fa fa-star" aria-hidden="true"></i>
+    <i *ngSwitchCase="0.5" class="fa fa-star-half-o" aria-hidden="true"></i>
+    <i *ngSwitchCase="0" class="fa fa-star-o" aria-hidden="true"></i>
+  </ng-container>
+  <span class="score" *ngIf="showScore">435</span>
+</div>

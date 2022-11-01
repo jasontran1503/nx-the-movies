@@ -1,9 +1,12 @@
 // This file can be replaced during build by using the `fileReplacements` array.
 // `ng build` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
+import { AppConfig } from '@nx-the-movies/shared/data-access/models';
 
-export const environment = {
+export const environment: AppConfig = {
   production: false,
+  baseUrl: 'https://api.themoviedb.org/3/',
+  apiKey: '4fcaaa1bcae848ad40f21815bf7dffb2'
 };
 
 /*

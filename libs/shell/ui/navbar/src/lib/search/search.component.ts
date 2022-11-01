@@ -1,9 +1,30 @@
-import { Component } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { Router, RouterModule } from '@angular/router';
+import { DestroyService } from '@nx-the-movies/shared/data-access/common';
+import { takeUntil, debounceTime } from 'rxjs';
 
 @Component({
   selector: 'nx-the-movies-search',
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.scss'],
-  standalone: true
+  standalone: true,
+  imports: [ReactiveFormsModule, RouterModule],
+  providers: [DestroyService]
 })
-export class SearchComponent {}
+export class SearchComponent implements OnInit {
+  private router = inject(Router);
+  private destroy$ = inject(DestroyService);
+
+  searchControl = new FormControl('');
+
+  ngOnInit(): void {
+    this.searchControl.valueChanges.pipe(debounceTime(300), takeUntil(this.destroy$)).subscribe({
+      next: (search) => {
+        if (search && search.trim()) {
+          this.router.navigate(['/list'], { queryParams: { search } });
+        }
+      }
+    });
+  }
+}
