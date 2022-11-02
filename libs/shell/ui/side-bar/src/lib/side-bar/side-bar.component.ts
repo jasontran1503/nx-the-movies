@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, inject, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, inject, Output } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { GenreService } from '@nx-the-movies/shared/data-access/apis';
 import { Genre } from '@nx-the-movies/shared/data-access/models';
@@ -10,7 +10,8 @@ import { Observable } from 'rxjs';
   standalone: true,
   imports: [CommonModule, RouterModule],
   templateUrl: './side-bar.component.html',
-  styleUrls: ['./side-bar.component.scss']
+  styleUrls: ['./side-bar.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SideBarComponent {
   private genreService = inject(GenreService);

@@ -1,0 +1,29 @@
+<ng-container *ngIf="actor$ | async as actor">
+  <div class="actor">
+    <div class="actor__image">
+      <img src="https://image.tmdb.org/t/p/w780/{{ actor.profile_path }}" alt="" />
+    </div>
+    <div class="actor__bio">
+      <div class="actor__bio-info">
+        <h1>{{ actor.name }}</h1>
+        <h2>{{ actor.birthday }}</h2>
+      </div>
+      <div class="actor__bio-content">
+        <h2>THE BIOGRAPHY</h2>
+        <p>{{ actor.biography }}</p>
+      </div>
+      <div class="actor__bio-button">
+        <a href="https://www.imdb.com/name/{{ actor.imdb_id }}" target="_blank" class="button imdb"
+          >IMDB<i class="fa fa-film" aria-hidden="true"></i
+        ></a>
+        <a class="button back"><i class="fa fa-arrow-left" aria-hidden="true"></i>Back</a>
+      </div>
+    </div>
+  </div>
+
+  <nx-the-movies-movie-list [header]="{ main: actor.name, sub: 'movies' }">
+    <nx-the-movies-select-movie-sort-by
+      (sortBy)="sortBy($event)"
+    ></nx-the-movies-select-movie-sort-by>
+  </nx-the-movies-movie-list>
+</ng-container>

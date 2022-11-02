@@ -9,5 +9,9 @@ export const layoutRoutes: Routes = [
   {
     path: 'list',
     loadComponent: () => import('@nx-the-movies/home').then((m) => m.HomeComponent)
+  },
+  {
+    path: 'actor/:id',
+    loadComponent: () => import('@nx-the-movies/actor').then((m) => m.ActorComponent)
   }
 ];

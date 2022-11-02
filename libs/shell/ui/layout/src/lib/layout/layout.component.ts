@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { NavbarComponent } from '@nx-the-movies/shell/ui/navbar';
 import { SideBarComponent } from '@nx-the-movies/shell/ui/side-bar';
 
@@ -8,7 +8,8 @@ import { SideBarComponent } from '@nx-the-movies/shell/ui/side-bar';
   standalone: true,
   imports: [CommonModule, NavbarComponent, SideBarComponent],
   templateUrl: './layout.component.html',
-  styleUrls: ['./layout.component.scss']
+  styleUrls: ['./layout.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LayoutComponent {
   isShowSidebar = false;

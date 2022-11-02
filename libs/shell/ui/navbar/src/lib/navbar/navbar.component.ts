@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import {
+  ChangeDetectionStrategy,
   Component,
   ElementRef,
   EventEmitter,
@@ -17,7 +18,8 @@ import { ToggleModeComponent } from '../toggle-mode/toggle-mode.component';
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss'],
   standalone: true,
-  imports: [CommonModule, RouterModule, SearchComponent, ToggleModeComponent]
+  imports: [CommonModule, RouterModule, SearchComponent, ToggleModeComponent],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NavbarComponent implements OnInit {
   isShowHamburger = false;

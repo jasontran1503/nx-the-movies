@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { DestroyService } from '@nx-the-movies/shared/data-access/common';
@@ -10,7 +10,8 @@ import { takeUntil, debounceTime } from 'rxjs';
   styleUrls: ['./search.component.scss'],
   standalone: true,
   imports: [ReactiveFormsModule, RouterModule],
-  providers: [DestroyService]
+  providers: [DestroyService],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SearchComponent implements OnInit {
   private router = inject(Router);

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MovieListComponent } from '@nx-the-movies/movie-list/feature/movie-list';
 import { DestroyService } from '@nx-the-movies/shared/data-access/common';
@@ -11,7 +11,8 @@ import { takeUntil } from 'rxjs';
   imports: [CommonModule, MovieListComponent],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
-  providers: [DestroyService]
+  providers: [DestroyService],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HomeComponent implements OnInit {
   private route = inject(ActivatedRoute);

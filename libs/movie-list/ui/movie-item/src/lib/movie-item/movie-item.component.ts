@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { StarRatingComponent } from '@nx-the-movies/shared/ui/star-rating';
 
 @Component({
@@ -7,7 +7,8 @@ import { StarRatingComponent } from '@nx-the-movies/shared/ui/star-rating';
   standalone: true,
   imports: [CommonModule, StarRatingComponent],
   templateUrl: './movie-item.component.html',
-  styleUrls: ['./movie-item.component.scss']
+  styleUrls: ['./movie-item.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MovieItemComponent implements OnInit {
   constructor() {}

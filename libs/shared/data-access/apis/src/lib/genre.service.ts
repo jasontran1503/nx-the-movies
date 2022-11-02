@@ -12,7 +12,7 @@ export class GenreService {
 
   getGenres() {
     return this.http
-      .get<GenreResponse>(this.appConfig.baseUrl + 'genre/movie/list')
+      .get<GenreResponse>(`${this.appConfig.baseUrl}genre/movie/list`)
       .pipe(map((response) => response.genres));
   }
 }
