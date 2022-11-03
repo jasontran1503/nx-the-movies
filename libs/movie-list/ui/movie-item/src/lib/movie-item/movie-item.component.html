@@ -1,11 +1,11 @@
 <div class="movies-item">
   <img
     class="movies-item__img"
-    src="https://image.tmdb.org/t/p/w300//yw8NQyvbeNXoZO6v4SEXrgQ27Ll.jpg"
+    src="https://image.tmdb.org/t/p/w300/{{ movie.poster_path }}"
     alt=""
   />
   <div class="movies-item__detail">
-    <h6 class="name">Terrifier 2</h6>
-    <nx-the-movies-star-rating [rating]="1"></nx-the-movies-star-rating>
+    <h6 class="name">{{ movie.title }}</h6>
+    <nx-the-movies-star-rating [rating]="movie.vote_average"></nx-the-movies-star-rating>
   </div>
 </div>

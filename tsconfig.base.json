@@ -24,6 +24,7 @@
       "@nx-the-movies/shared/data-access/apis": ["libs/shared/data-access/apis/src/index.ts"],
       "@nx-the-movies/shared/data-access/common": ["libs/shared/data-access/common/src/index.ts"],
       "@nx-the-movies/shared/data-access/models": ["libs/shared/data-access/models/src/index.ts"],
+      "@nx-the-movies/shared/ui/loading": ["libs/shared/ui/loading/src/index.ts"],
       "@nx-the-movies/shared/ui/select-movie-sort-by": [
         "libs/shared/ui/select-movie-sort-by/src/index.ts"
       ],

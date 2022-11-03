@@ -18,19 +18,19 @@
     display: grid;
     grid-template-columns: auto auto auto;
     gap: 2rem 2rem;
-    .empty {
-      color: var(--palette-text-primary);
-      font-size: 30px;
-      .fa {
-        margin-left: 10px;
-      }
-    }
+  }
+}
+
+.empty {
+  color: var(--palette-text-primary);
+  font-size: 30px;
+  .fa {
+    margin-left: 10px;
   }
 }
 
 @media screen and (max-width: 620px) {
   .movies-list {
-    display: grid;
     grid-template-columns: auto auto !important;
     gap: 1rem 1rem !important;
   }
@@ -38,7 +38,6 @@
 
 @media screen and (max-width: 400px) {
   .movies-list {
-    display: grid;
     grid-template-columns: auto auto !important;
     gap: 0.75rem 0.75rem !important;
   }

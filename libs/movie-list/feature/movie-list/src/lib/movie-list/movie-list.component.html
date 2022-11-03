@@ -4,18 +4,22 @@
     <h2 class="header__sub">{{ header.sub }}</h2>
   </div>
 
-  <div>
-    <ng-content></ng-content>
-  </div>
+  <ng-content></ng-content>
 
-  <div class="movies-list">
-    <ng-container *ngIf="true; else noData">
+  <ng-container *ngIf="!isLoading; else loading">
+    <div class="movies-list" *ngIf="movies.length > 0; else noData">
       <nx-the-movies-movie-item
-        *ngFor="let item of [1, 1, 1, 1, 1, 1, 1, 1, 1]"
+        *ngFor="let movie of movies"
+        [movie]="movie"
       ></nx-the-movies-movie-item>
-    </ng-container>
-    <ng-template #noData>
-      <div class="empty">No results<i class="fa fa-frown-o" aria-hidden="true"></i></div>
-    </ng-template>
-  </div>
+    </div>
+  </ng-container>
+
+  <ng-template #loading>
+    <nx-the-movies-loading *ngIf="isLoading"></nx-the-movies-loading>
+  </ng-template>
 </div>
+
+<ng-template #noData>
+  <div class="empty">No results<i class="fa fa-frown-o" aria-hidden="true"></i></div>
+</ng-template>

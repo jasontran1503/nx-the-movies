@@ -25,7 +25,7 @@
         [routerLink]="['/list']"
         routerLinkActive="active"
         [routerLinkActiveOptions]="{ exact: true }"
-        [queryParams]="{ genre: genre.name.toLowerCase() }"
+        [queryParams]="{ genre: genre.name.toLowerCase(), id: genre.id }"
         (click)="onCloseSidebar()"
       >
         <i class="fa fa-dot-circle-o" aria-hidden="true"></i>

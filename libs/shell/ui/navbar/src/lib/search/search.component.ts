@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/cor
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { DestroyService } from '@nx-the-movies/shared/data-access/common';
-import { takeUntil, debounceTime } from 'rxjs';
+import { debounceTime, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'nx-the-movies-search',
