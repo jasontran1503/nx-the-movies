@@ -1,5 +1,6 @@
 <nx-the-movies-movie-list
   [header]="header"
-  [movies]="movies"
+  [movieResponse]="movieResponse"
   [isLoading]="(isLoading$ | async)!"
+  (changePage)="onChangePage($event)"
 ></nx-the-movies-movie-list>

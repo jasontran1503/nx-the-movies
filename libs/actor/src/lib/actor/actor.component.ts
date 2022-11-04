@@ -10,9 +10,9 @@ import { ActivatedRoute } from '@angular/router';
 import { MovieListComponent } from '@nx-the-movies/movie-list/feature/movie-list';
 import { DestroyService } from '@nx-the-movies/shared/common';
 import { MovieService, PersonService } from '@nx-the-movies/shared/data-access/apis';
-import { Movie, Person } from '@nx-the-movies/shared/data-access/models';
+import { ListResponse, Movie, Person } from '@nx-the-movies/shared/data-access/models';
 import { SelectMovieSortByComponent } from '@nx-the-movies/shared/ui/select-movie-sort-by';
-import { EMPTY, forkJoin, map, switchMap, takeUntil } from 'rxjs';
+import { BehaviorSubject, EMPTY, map, mergeMap, switchMap, takeUntil, tap } from 'rxjs';
 
 @Component({
   selector: 'nx-the-movies-actor',
@@ -30,12 +30,13 @@ export class ActorComponent implements OnInit {
   private personService = inject(PersonService);
   private movieService = inject(MovieService);
 
-  private sortByValue = 'popularity';
-  private personId = 0;
-  private page = 1;
+  private filter$ = new BehaviorSubject<{ page: number; sortBy: string }>({
+    page: 1,
+    sortBy: 'popularity'
+  });
 
   actor!: Person;
-  movies: Movie[] = [];
+  movieResponse!: ListResponse<Movie>;
 
   ngOnInit(): void {
     this.route.paramMap
@@ -43,34 +44,38 @@ export class ActorComponent implements OnInit {
         map((params) => Number(params.get('id'))),
         switchMap((personId) => {
           if (!personId) return EMPTY;
-          this.personId = personId;
-
-          return forkJoin([
-            this.personService.getPersonBio(personId),
-            this.movieService.getMoviesWithCast(personId, this.sortByValue)
-          ]);
+          return this.personService
+            .getPersonBio(personId)
+            .pipe(tap((person) => (this.actor = person)));
         }),
+        mergeMap((person) =>
+          this.filter$.pipe(
+            switchMap(({ page, sortBy }) =>
+              this.movieService.getMoviesWithCast(person.id, sortBy, page)
+            )
+          )
+        ),
         takeUntil(this.destroy$)
       )
       .subscribe({
-        next: ([person, movies]) => {
-          this.actor = person;
-          this.movies = movies;
+        next: (movieResponse) => {
+          this.movieResponse = movieResponse;
           this.cdr.markForCheck();
         }
       });
   }
 
   sortBy(value: string) {
-    this.sortByValue = value;
-    this.movieService
-      .getMoviesWithCast(Number(this.personId), this.sortByValue)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe({
-        next: (movies) => {
-          this.movies = movies;
-          this.cdr.markForCheck();
-        }
-      });
+    this.filter$.next({
+      page: 1,
+      sortBy: value
+    });
+  }
+
+  onChangePage(page: number) {
+    this.filter$.next({
+      page,
+      sortBy: this.filter$.getValue().sortBy
+    });
   }
 }

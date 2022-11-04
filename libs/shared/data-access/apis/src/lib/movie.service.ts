@@ -11,32 +11,26 @@ export class MovieService {
   private http = inject(HttpClient);
 
   getMovies(type: string, page: number = 1) {
-    return this.http
-      .get<ListResponse<Movie>>(`${this.appConfig.baseUrl}movie/${type}`, { params: { page } })
-      .pipe(map((res) => res.results));
+    return this.http.get<ListResponse<Movie>>(`${this.appConfig.baseUrl}movie/${type}`, {
+      params: { page }
+    });
   }
 
   getMoviesWithGenres(with_genres: number, page: number = 1) {
-    return this.http
-      .get<ListResponse<Movie>>(`${this.appConfig.baseUrl}discover/movie`, {
-        params: { page, sort_by: 'popularity.desc', with_genres }
-      })
-      .pipe(map((res) => res.results));
+    return this.http.get<ListResponse<Movie>>(`${this.appConfig.baseUrl}discover/movie`, {
+      params: { page, sort_by: 'popularity.desc', with_genres }
+    });
   }
 
   search(query: string, page: number = 1) {
-    return this.http
-      .get<ListResponse<Movie>>(`${this.appConfig.baseUrl}search/movie`, {
-        params: { page, query }
-      })
-      .pipe(map((res) => res.results));
+    return this.http.get<ListResponse<Movie>>(`${this.appConfig.baseUrl}search/movie`, {
+      params: { page, query }
+    });
   }
 
   getMoviesWithCast(with_cast: number, sort_by: string, page: number = 1) {
-    return this.http
-      .get<ListResponse<Movie>>(`${this.appConfig.baseUrl}discover/movie`, {
-        params: { page, with_cast, sort_by: `${sort_by}.desc` }
-      })
-      .pipe(map((res) => res.results));
+    return this.http.get<ListResponse<Movie>>(`${this.appConfig.baseUrl}discover/movie`, {
+      params: { page, with_cast, sort_by: `${sort_by}.desc` }
+    });
   }
 }

@@ -1,25 +1,35 @@
-<div class="movies">
-  <div class="header">
-    <h1 class="header__main">{{ header.main }}</h1>
-    <h2 class="header__sub">{{ header.sub }}</h2>
+<ng-container *ngIf="movieResponse">
+  <div class="movies" #moviePage>
+    <div class="header">
+      <h1 class="header__main">{{ header.main }}</h1>
+      <h2 class="header__sub">{{ header.sub }}</h2>
+    </div>
+
+    <ng-content></ng-content>
+
+    <ng-container *ngIf="!isLoading; else loading">
+      <ng-container *ngIf="movieResponse.results.length > 0; else noData">
+        <div class="movies-list">
+          <nx-the-movies-movie-item
+            *ngFor="let movie of movieResponse.results"
+            [movie]="movie"
+          ></nx-the-movies-movie-item>
+        </div>
+
+        <nx-the-movies-pagination
+          [currentPage]="movieResponse.page"
+          [totalPages]="movieResponse.total_pages"
+          (changePage)="onChangePage($event)"
+        ></nx-the-movies-pagination>
+      </ng-container>
+    </ng-container>
+
+    <ng-template #loading>
+      <nx-the-movies-loading *ngIf="isLoading"></nx-the-movies-loading>
+    </ng-template>
   </div>
 
-  <ng-content></ng-content>
-
-  <ng-container *ngIf="!isLoading; else loading">
-    <div class="movies-list" *ngIf="movies.length > 0; else noData">
-      <nx-the-movies-movie-item
-        *ngFor="let movie of movies"
-        [movie]="movie"
-      ></nx-the-movies-movie-item>
-    </div>
-  </ng-container>
-
-  <ng-template #loading>
-    <nx-the-movies-loading *ngIf="isLoading"></nx-the-movies-loading>
+  <ng-template #noData>
+    <div class="empty">No results<i class="fa fa-frown-o" aria-hidden="true"></i></div>
   </ng-template>
-</div>
-
-<ng-template #noData>
-  <div class="empty">No results<i class="fa fa-frown-o" aria-hidden="true"></i></div>
-</ng-template>
+</ng-container>

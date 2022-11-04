@@ -1,15 +1,15 @@
-import { startWith, takeUntil } from 'rxjs';
+import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
-  OnInit,
+  EventEmitter,
   inject,
-  Output,
-  EventEmitter
+  OnInit,
+  Output
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule, FormControl } from '@angular/forms';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { DestroyService } from '@nx-the-movies/shared/common';
+import { takeUntil } from 'rxjs';
 
 @Component({
   selector: 'nx-the-movies-select-movie-sort-by',
@@ -27,7 +27,7 @@ export class SelectMovieSortByComponent implements OnInit {
   @Output() sortBy = new EventEmitter<string>();
 
   ngOnInit(): void {
-    this.control.valueChanges.pipe(startWith('popularity'), takeUntil(this.destroy$)).subscribe({
+    this.control.valueChanges.pipe(takeUntil(this.destroy$)).subscribe({
       next: (value) => {
         if (value) {
           this.sortBy.emit(value);
