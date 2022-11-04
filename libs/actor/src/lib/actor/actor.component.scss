@@ -1,8 +1,8 @@
 .actor {
   padding: 2rem 2rem 4rem 2rem;
   display: grid;
-  grid-template-columns: auto auto;
-  gap: 2rem 2rem;
+  grid-template-columns: 40% 60%;
+  gap: 2rem;
   color: var(--palette-text-primary);
   &__image {
     width: 100%;
@@ -18,14 +18,14 @@
         margin: 0;
       }
       h2 {
-        font-size: var(--text-xl);
+        font-size: var(--text-md);
         opacity: 0.6;
       }
     }
     &-content {
       margin-top: 2rem;
       h2 {
-        font-size: var(--text-xl);
+        font-size: var(--text-md);
       }
       p {
         opacity: 0.6;

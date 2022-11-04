@@ -9,9 +9,9 @@ import {
 import { ActivatedRoute } from '@angular/router';
 import { MovieListComponent } from '@nx-the-movies/movie-list/feature/movie-list';
 import { MovieService } from '@nx-the-movies/shared/data-access/apis';
-import { DestroyService } from '@nx-the-movies/shared/data-access/common';
+import { DestroyService } from '@nx-the-movies/shared/common';
 import { Movie } from '@nx-the-movies/shared/data-access/models';
-import { switchMap, takeUntil, tap } from 'rxjs';
+import { catchError, EMPTY, Subject, switchMap, takeUntil, tap } from 'rxjs';
 import { MOVIE_DISCOVER } from './home.constant';
 
 @Component({
@@ -31,34 +31,38 @@ export class HomeComponent implements OnInit {
 
   header = { main: '', sub: '' };
   movies: Movie[] = [];
-  isLoading = false;
+  isLoading$ = new Subject<boolean>();
 
   ngOnInit(): void {
-    this.isLoading = true;
     this.route.queryParams
       .pipe(
         tap((value: { [key: string]: string }) => {
+          this.isLoading$.next(true);
           const key = Object.keys(value)[0];
-          this.header = {
-            main: key,
-            sub: value[key]
-          };
+          if (key) {
+            this.header = {
+              main: key,
+              sub: value[key]
+            };
+          }
         }),
         switchMap((value: { [key: string]: string }) => {
           if (this.header.main === 'search') {
-            return this.movieService.search(this.header.sub);
+            return this.movieService.search(this.header.sub).pipe(catchError(() => EMPTY));
           }
           const type = this.header.sub.replace(/ /g, '_');
           if (!MOVIE_DISCOVER.includes(type)) {
-            return this.movieService.getMoviesWithGenres(Number(value['id']));
+            return this.movieService
+              .getMoviesWithGenres(Number(value['id']))
+              .pipe(catchError(() => EMPTY));
           }
-          return this.movieService.getMovies(type);
+          return this.movieService.getMovies(type).pipe(catchError(() => EMPTY));
         }),
         takeUntil(this.destroy$)
       )
       .subscribe({
         next: (res) => {
-          this.isLoading = false;
+          this.isLoading$.next(false);
           this.movies = res;
           this.cdr.markForCheck();
         }

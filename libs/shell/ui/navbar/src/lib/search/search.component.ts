@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
-import { DestroyService } from '@nx-the-movies/shared/data-access/common';
+import { DestroyService } from '@nx-the-movies/shared/common';
 import { debounceTime, takeUntil } from 'rxjs';
 
 @Component({

@@ -16,10 +16,10 @@ export class MovieService {
       .pipe(map((res) => res.results));
   }
 
-  getMoviesWithGenres(genreId: number, page: number = 1) {
+  getMoviesWithGenres(with_genres: number, page: number = 1) {
     return this.http
       .get<ListResponse<Movie>>(`${this.appConfig.baseUrl}discover/movie`, {
-        params: { page, sort_by: 'popularity.desc', with_genres: genreId }
+        params: { page, sort_by: 'popularity.desc', with_genres }
       })
       .pipe(map((res) => res.results));
   }
@@ -28,6 +28,14 @@ export class MovieService {
     return this.http
       .get<ListResponse<Movie>>(`${this.appConfig.baseUrl}search/movie`, {
         params: { page, query }
+      })
+      .pipe(map((res) => res.results));
+  }
+
+  getMoviesWithCast(with_cast: number, sort_by: string, page: number = 1) {
+    return this.http
+      .get<ListResponse<Movie>>(`${this.appConfig.baseUrl}discover/movie`, {
+        params: { page, with_cast, sort_by: `${sort_by}.desc` }
       })
       .pipe(map((res) => res.results));
   }

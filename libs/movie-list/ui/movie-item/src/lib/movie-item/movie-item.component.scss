@@ -25,10 +25,21 @@
   }
 }
 
-@media screen and (max-width: 620px) {
+@media screen and (max-width: 768px) {
   .movies-item {
     &__detail {
-      padding: 1rem;
+      padding: 1.5rem;
+    }
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .movies-item {
+    &__detail {
+      padding: 1.5rem;
+      .name {
+        font-size: 10px;
+      }
     }
   }
 }

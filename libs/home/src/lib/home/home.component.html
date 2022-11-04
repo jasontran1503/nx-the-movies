@@ -1,5 +1,5 @@
 <nx-the-movies-movie-list
   [header]="header"
   [movies]="movies"
-  [isLoading]="isLoading"
+  [isLoading]="(isLoading$ | async)!"
 ></nx-the-movies-movie-list>

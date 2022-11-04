@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormControl } from '@angular/forms';
-import { DestroyService } from '@nx-the-movies/shared/data-access/common';
+import { DestroyService } from '@nx-the-movies/shared/common';
 
 @Component({
   selector: 'nx-the-movies-select-movie-sort-by',
