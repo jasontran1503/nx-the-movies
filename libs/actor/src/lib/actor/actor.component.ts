@@ -12,7 +12,7 @@ import { DestroyService } from '@nx-the-movies/shared/common';
 import { MovieService, PersonService } from '@nx-the-movies/shared/data-access/apis';
 import { ListResponse, Movie, Person } from '@nx-the-movies/shared/data-access/models';
 import { SelectMovieSortByComponent } from '@nx-the-movies/shared/ui/select-movie-sort-by';
-import { BehaviorSubject, EMPTY, map, mergeMap, switchMap, takeUntil, tap } from 'rxjs';
+import { BehaviorSubject, EMPTY, map, switchMap, takeUntil, tap } from 'rxjs';
 
 @Component({
   selector: 'nx-the-movies-actor',
@@ -48,7 +48,7 @@ export class ActorComponent implements OnInit {
             .getPersonBio(personId)
             .pipe(tap((person) => (this.actor = person)));
         }),
-        mergeMap((person) =>
+        switchMap((person) =>
           this.filter$.pipe(
             switchMap(({ page, sortBy }) =>
               this.movieService.getMoviesWithCast(person.id, sortBy, page)
