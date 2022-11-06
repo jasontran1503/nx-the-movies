@@ -11,7 +11,7 @@ import { MovieListComponent } from '@nx-the-movies/movie-list/feature/movie-list
 import { DestroyService } from '@nx-the-movies/shared/common';
 import { MovieService } from '@nx-the-movies/shared/data-access/apis';
 import { ListResponse, Movie } from '@nx-the-movies/shared/data-access/models';
-import { BehaviorSubject, catchError, EMPTY, of, Subject, switchMap, takeUntil } from 'rxjs';
+import { BehaviorSubject, catchError, of, Subject, switchMap, takeUntil } from 'rxjs';
 import { MOVIE_DISCOVER } from './home.constant';
 
 @Component({
@@ -41,10 +41,7 @@ export class HomeComponent implements OnInit {
           this.isLoading$.next(true);
           const key = Object.keys(params)[0];
           if (key) {
-            this.header = {
-              main: key,
-              sub: params[key]
-            };
+            this.header = { main: key, sub: params[key] };
           }
           return of(Number(params['id']));
         }),
@@ -57,20 +54,22 @@ export class HomeComponent implements OnInit {
               }
               const type = this.header.sub.replace(/ /g, '_');
               if (!MOVIE_DISCOVER.includes(type)) {
-                return this.movieService.getMoviesWithGenres(Number(id), page);
+                return this.movieService.getMoviesWithGenres(id, page);
               }
               return this.movieService.getMovies(type, page);
             }),
-            catchError(() => EMPTY)
+            catchError(() => of({} as ListResponse<Movie>))
           );
         }),
         takeUntil(this.destroy$)
       )
       .subscribe({
         next: (movieResponse) => {
-          this.isLoading$.next(false);
-          this.movieResponse = movieResponse;
-          this.cdr.markForCheck();
+          if (movieResponse.page) {
+            this.isLoading$.next(false);
+            this.movieResponse = movieResponse;
+            this.cdr.markForCheck();
+          }
         }
       });
   }

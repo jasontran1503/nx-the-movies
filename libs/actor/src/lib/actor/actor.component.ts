@@ -12,7 +12,7 @@ import { DestroyService } from '@nx-the-movies/shared/common';
 import { MovieService, PersonService } from '@nx-the-movies/shared/data-access/apis';
 import { ListResponse, Movie, Person } from '@nx-the-movies/shared/data-access/models';
 import { SelectMovieSortByComponent } from '@nx-the-movies/shared/ui/select-movie-sort-by';
-import { BehaviorSubject, EMPTY, map, switchMap, takeUntil, tap } from 'rxjs';
+import { BehaviorSubject, catchError, EMPTY, map, switchMap, takeUntil, tap, of } from 'rxjs';
 
 @Component({
   selector: 'nx-the-movies-actor',
@@ -44,23 +44,23 @@ export class ActorComponent implements OnInit {
         map((params) => Number(params.get('id'))),
         switchMap((personId) => {
           if (!personId) return EMPTY;
-          return this.personService
-            .getPersonBio(personId)
-            .pipe(tap((person) => (this.actor = person)));
+          return this.personService.getPersonBio(personId);
         }),
-        switchMap((person) =>
-          this.filter$.pipe(
-            switchMap(({ page, sortBy }) =>
-              this.movieService.getMoviesWithCast(person.id, sortBy, page)
-            )
-          )
+        tap((person) => (this.actor = person)),
+        switchMap(() => this.filter$),
+        switchMap(({ page, sortBy }) =>
+          this.movieService
+            .getMoviesWithCast(this.actor.id, sortBy, page)
+            .pipe(catchError(() => of({} as ListResponse<Movie>)))
         ),
         takeUntil(this.destroy$)
       )
       .subscribe({
         next: (movieResponse) => {
-          this.movieResponse = movieResponse;
-          this.cdr.markForCheck();
+          if (movieResponse.page) {
+            this.movieResponse = movieResponse;
+            this.cdr.markForCheck();
+          }
         }
       });
   }
