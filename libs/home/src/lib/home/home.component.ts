@@ -45,27 +45,12 @@ export class HomeComponent implements OnInit {
           }
           return of(Number(params['id']));
         }),
-        switchMap((id) => {
-          this.page$.next(1);
-          return this.page$.pipe(
-            switchMap((page) => {
-              if (this.header.main === 'search') {
-                return this.movieService.search(this.header.sub, page);
-              }
-              const type = this.header.sub.replace(/ /g, '_');
-              if (!MOVIE_DISCOVER.includes(type)) {
-                return this.movieService.getMoviesWithGenres(id, page);
-              }
-              return this.movieService.getMovies(type, page);
-            }),
-            catchError(() => of({} as ListResponse<Movie>))
-          );
-        }),
+        switchMap((id) => this.loadMoviesData(id)),
         takeUntil(this.destroy$)
       )
       .subscribe({
         next: (movieResponse) => {
-          if (movieResponse.page) {
+          if (movieResponse) {
             this.isLoading$.next(false);
             this.movieResponse = movieResponse;
             this.cdr.markForCheck();
@@ -76,5 +61,22 @@ export class HomeComponent implements OnInit {
 
   onChangePage(page: number) {
     this.page$.next(page);
+  }
+
+  private loadMoviesData(id: number) {
+    this.page$.next(1);
+    return this.page$.pipe(
+      switchMap((page) => {
+        if (this.header.main === 'search') {
+          return this.movieService.search(this.header.sub, page);
+        }
+        const type = this.header.sub.replace(/ /g, '_');
+        if (!MOVIE_DISCOVER.includes(type)) {
+          return this.movieService.getMoviesWithGenres(id, page);
+        }
+        return this.movieService.getMovies(type, page);
+      }),
+      catchError(() => of(null))
+    );
   }
 }

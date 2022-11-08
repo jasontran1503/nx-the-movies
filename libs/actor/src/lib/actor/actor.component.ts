@@ -1,18 +1,12 @@
 import { CommonModule } from '@angular/common';
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  inject,
-  OnInit
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MovieListComponent } from '@nx-the-movies/movie-list/feature/movie-list';
 import { DestroyService } from '@nx-the-movies/shared/common';
 import { MovieService, PersonService } from '@nx-the-movies/shared/data-access/apis';
 import { ListResponse, Movie, Person } from '@nx-the-movies/shared/data-access/models';
 import { SelectMovieSortByComponent } from '@nx-the-movies/shared/ui/select-movie-sort-by';
-import { BehaviorSubject, catchError, EMPTY, map, switchMap, takeUntil, tap, of } from 'rxjs';
+import { BehaviorSubject, catchError, EMPTY, map, Observable, of, switchMap } from 'rxjs';
 
 @Component({
   selector: 'nx-the-movies-actor',
@@ -25,44 +19,37 @@ import { BehaviorSubject, catchError, EMPTY, map, switchMap, takeUntil, tap, of 
 })
 export class ActorComponent implements OnInit {
   private route = inject(ActivatedRoute);
-  private cdr = inject(ChangeDetectorRef);
-  private destroy$ = inject(DestroyService);
   private personService = inject(PersonService);
   private movieService = inject(MovieService);
-
   private filter$ = new BehaviorSubject<{ page: number; sortBy: string }>({
     page: 1,
     sortBy: 'popularity'
   });
+  private personId$ = this.route.paramMap.pipe(map((params) => Number(params.get('id'))));
 
-  actor!: Person;
-  movieResponse!: ListResponse<Movie>;
+  actor$!: Observable<Person>;
+  movieResponse$!: Observable<ListResponse<Movie> | null>;
 
   ngOnInit(): void {
-    this.route.paramMap
-      .pipe(
-        map((params) => Number(params.get('id'))),
-        switchMap((personId) => {
-          if (!personId) return EMPTY;
-          return this.personService.getPersonBio(personId);
-        }),
-        tap((person) => (this.actor = person)),
-        switchMap(() => this.filter$),
-        switchMap(({ page, sortBy }) =>
-          this.movieService
-            .getMoviesWithCast(this.actor.id, sortBy, page)
-            .pipe(catchError(() => of({} as ListResponse<Movie>)))
-        ),
-        takeUntil(this.destroy$)
+    this.actor$ = this.personId$.pipe(
+      switchMap((personId) => {
+        if (!personId) return EMPTY;
+        return this.personService.getPersonBio(personId);
+      })
+    );
+
+    this.movieResponse$ = this.personId$.pipe(
+      switchMap((personId) =>
+        this.filter$.pipe(
+          map((filter) => {
+            return { ...filter, personId };
+          })
+        )
+      ),
+      switchMap(({ page, sortBy, personId }) =>
+        this.movieService.getMoviesWithCast(personId, sortBy, page).pipe(catchError(() => of(null)))
       )
-      .subscribe({
-        next: (movieResponse) => {
-          if (movieResponse.page) {
-            this.movieResponse = movieResponse;
-            this.cdr.markForCheck();
-          }
-        }
-      });
+    );
   }
 
   sortBy(value: string) {
