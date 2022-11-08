@@ -20,6 +20,7 @@
       "@nx-the-movies/movie-detail/feature/movie-detail": [
         "libs/movie-detail/feature/movie-detail/src/index.ts"
       ],
+      "@nx-the-movies/movie-detail/ui/buttons": ["libs/movie-detail/ui/buttons/src/index.ts"],
       "@nx-the-movies/movie-detail/ui/cast-slider": [
         "libs/movie-detail/ui/cast-slider/src/index.ts"
       ],

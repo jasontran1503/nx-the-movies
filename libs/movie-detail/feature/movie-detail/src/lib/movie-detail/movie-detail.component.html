@@ -1,0 +1,39 @@
+<div class="movie">
+  <div class="movie__image">
+    <img src="https://image.tmdb.org/t/p/w780//b6IRp6Pl2Fsq37r9jFhGoLtaqHm.jpg" alt="" />
+  </div>
+  <div class="movie__bio">
+    <div class="movie__bio-info">
+      <h1>TERRIFIER 2</h1>
+      <h2>WHO'S LAUGHING NOW?</h2>
+    </div>
+    <div class="movie__bio-rate">
+      <nx-the-movies-star-rating [rating]="7" [showScore]="true"></nx-the-movies-star-rating>
+      <h6>ENGLISH / 138 MIN. / 2022</h6>
+    </div>
+    <div class="movie__bio-genres">
+      <h6>The genres</h6>
+      <div class="d-flex">
+        <div class="genres" *ngFor="let item of [1, 1]">
+          <i class="fa fa-dot-circle-o" aria-hidden="true"></i>
+          <span>THRILLER</span>
+        </div>
+      </div>
+    </div>
+    <div class="movie__bio-content">
+      <h2>THE SYNOPSIS</h2>
+      <p>
+        After being resurrected by a sinister entity, Art the Clown returns to Miles County where he
+        must hunt down and destroy a teenage girl and her younger brother on Halloween night. As the
+        body count rises, the siblings fight to stay alive while uncovering the true nature of Art's
+        evil intent.
+      </p>
+    </div>
+    <div class="movie__bio-button">
+      <a href="" target="_blank" class="button imdb"
+        >IMDB<i class="fa fa-film" aria-hidden="true"></i
+      ></a>
+      <a class="button back"><i class="fa fa-arrow-left" aria-hidden="true"></i>Back</a>
+    </div>
+  </div>
+</div>

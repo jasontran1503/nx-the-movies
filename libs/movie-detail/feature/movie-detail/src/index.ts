@@ -1,1 +1,1 @@
-export * from './lib/movie-detail-feature-movie-detail.module';
+export * from './lib/movie-detail/movie-detail.component';
