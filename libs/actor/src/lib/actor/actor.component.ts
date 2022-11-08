@@ -1,10 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { MovieListComponent } from '@nx-the-movies/movie-list/feature/movie-list';
 import { DestroyService } from '@nx-the-movies/shared/common';
 import { MovieService, PersonService } from '@nx-the-movies/shared/data-access/apis';
 import { ListResponse, Movie, Person } from '@nx-the-movies/shared/data-access/models';
+import { MovieListComponent } from '@nx-the-movies/shared/ui/movie-list';
 import { SelectMovieSortByComponent } from '@nx-the-movies/shared/ui/select-movie-sort-by';
 import { BehaviorSubject, catchError, EMPTY, map, Observable, of, switchMap } from 'rxjs';
 

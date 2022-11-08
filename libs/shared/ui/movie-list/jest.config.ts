@@ -1,6 +1,6 @@
 /* eslint-disable */
 export default {
-  displayName: 'movie-list-feature-movie-list',
+  displayName: 'shared-ui-movie-list',
   preset: '../../../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
   globals: {
@@ -9,7 +9,7 @@ export default {
       stringifyContentPathRegex: '\\.(html|svg)$'
     }
   },
-  coverageDirectory: '../../../../coverage/libs/movie-list/feature/movie-list',
+  coverageDirectory: '../../../../coverage/libs/shared/ui/movie-list',
   transform: {
     '^.+\\.(ts|mjs|js|html)$': 'jest-preset-angular'
   },

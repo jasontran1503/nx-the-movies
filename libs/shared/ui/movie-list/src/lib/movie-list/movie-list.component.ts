@@ -2,16 +2,16 @@ import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
+  ElementRef,
   EventEmitter,
-  ViewChild,
   Input,
   OnInit,
   Output,
-  ElementRef
+  ViewChild
 } from '@angular/core';
-import { MovieItemComponent } from '@nx-the-movies/movie-list/ui/movie-item';
 import { ListResponse, Movie } from '@nx-the-movies/shared/data-access/models';
 import { LoadingComponent } from '@nx-the-movies/shared/ui/loading';
+import { MovieItemComponent } from '@nx-the-movies/shared/ui/movie-item';
 import { PaginationComponent } from '@nx-the-movies/shared/ui/pagination';
 
 @Component({

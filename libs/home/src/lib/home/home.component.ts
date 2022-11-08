@@ -7,10 +7,10 @@ import {
   OnInit
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { MovieListComponent } from '@nx-the-movies/movie-list/feature/movie-list';
 import { DestroyService } from '@nx-the-movies/shared/common';
 import { MovieService } from '@nx-the-movies/shared/data-access/apis';
 import { ListResponse, Movie } from '@nx-the-movies/shared/data-access/models';
+import { MovieListComponent } from '@nx-the-movies/shared/ui/movie-list';
 import { BehaviorSubject, catchError, of, Subject, switchMap, takeUntil } from 'rxjs';
 import { MOVIE_DISCOVER } from './home.constant';
 
