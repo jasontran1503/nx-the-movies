@@ -1,4 +1,4 @@
-<div class="pagination">
+<div class="pagination" *ngIf="totalPages > 1">
   <div>
     <h6 class="pagination__button" *ngIf="currentPage > 1" (click)="previous()">previous</h6>
   </div>

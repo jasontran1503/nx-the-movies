@@ -26,6 +26,7 @@ export class MovieListComponent implements OnInit {
   @Input() header!: { main: string; sub: string };
   @Input() movieResponse!: ListResponse<Movie>;
   @Input() isLoading = false;
+  @Input() error = false;
 
   @Output() changePage = new EventEmitter<number>();
   @ViewChild('moviePage') moviePage!: ElementRef<HTMLDivElement>;

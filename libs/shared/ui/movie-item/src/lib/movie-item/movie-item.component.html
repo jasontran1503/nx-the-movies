@@ -1,4 +1,4 @@
-<div class="movies-item">
+<div class="movies-item" [routerLink]="['/movie/detail', movie.id]">
   <img
     *ngIf="movie.poster_path; else defaultImage"
     class="movies-item__img"

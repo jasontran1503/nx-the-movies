@@ -1,39 +1,63 @@
-<div class="movie">
+<div class="movie" *ngIf="movieDetail">
   <div class="movie__image">
-    <img src="https://image.tmdb.org/t/p/w780//b6IRp6Pl2Fsq37r9jFhGoLtaqHm.jpg" alt="" />
+    <img
+      *ngIf="movieDetail.poster_path; else defaultImage"
+      class="movies-item__img"
+      src="https://image.tmdb.org/t/p/w300/{{ movieDetail.poster_path }}"
+      alt=""
+    />
+    <ng-template #defaultImage>
+      <img class="movies-item__img" src="assets/images/default-image.jpg" alt="" />
+    </ng-template>
   </div>
   <div class="movie__bio">
     <div class="movie__bio-info">
-      <h1>TERRIFIER 2</h1>
-      <h2>WHO'S LAUGHING NOW?</h2>
+      <h1>{{ movieDetail.title }}</h1>
+      <h2>{{ movieDetail.tagline }}</h2>
     </div>
     <div class="movie__bio-rate">
-      <nx-the-movies-star-rating [rating]="7" [showScore]="true"></nx-the-movies-star-rating>
-      <h6>ENGLISH / 138 MIN. / 2022</h6>
+      <nx-the-movies-star-rating
+        [rating]="movieDetail.vote_average"
+        [showScore]="true"
+      ></nx-the-movies-star-rating>
+      <h6>ENGLISH / {{ movieDetail.runtime }} MIN. / {{ movieDetail.release_date }}</h6>
     </div>
     <div class="movie__bio-genres">
       <h6>The genres</h6>
-      <div class="d-flex">
-        <div class="genres" *ngFor="let item of [1, 1]">
+      <div class="d-flex flex-wrap">
+        <div
+          class="genres"
+          *ngFor="let genre of movieDetail.genres"
+          [routerLink]="['/list']"
+          [queryParams]="{ genre: genre.name, id: genre.id }"
+        >
           <i class="fa fa-dot-circle-o" aria-hidden="true"></i>
-          <span>THRILLER</span>
+          <span>{{ genre.name }}</span>
         </div>
       </div>
     </div>
     <div class="movie__bio-content">
       <h2>THE SYNOPSIS</h2>
-      <p>
-        After being resurrected by a sinister entity, Art the Clown returns to Miles County where he
-        must hunt down and destroy a teenage girl and her younger brother on Halloween night. As the
-        body count rises, the siblings fight to stay alive while uncovering the true nature of Art's
-        evil intent.
-      </p>
+      <p>{{ movieDetail.overview || 'There is no synopsis available...' }}</p>
     </div>
     <div class="movie__bio-button">
-      <a href="" target="_blank" class="button imdb"
+      <a [href]="movieDetail.homepage" target="_blank" class="button"
+        >Website<i class="fa fa-link" aria-hidden="true"></i
+      ></a>
+      <a href="https://www.imdb.com/title/{{ movieDetail.imdb_id }}" target="_blank" class="button"
         >IMDB<i class="fa fa-film" aria-hidden="true"></i
+      ></a>
+      <a href="" target="_blank" class="button"
+        >Trailer<i class="fa fa-play" aria-hidden="true"></i
       ></a>
       <a class="button back"><i class="fa fa-arrow-left" aria-hidden="true"></i>Back</a>
     </div>
   </div>
 </div>
+
+<nx-the-movies-movie-list
+  [header]="{ main: 'RECOMMENDED', sub: 'movies' }"
+  [movieResponse]="movieResponse"
+  (changePage)="onChangePage($event)"
+>
+</nx-the-movies-movie-list>

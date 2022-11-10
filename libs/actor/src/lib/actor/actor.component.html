@@ -25,6 +25,7 @@
     <nx-the-movies-movie-list
       [header]="{ main: actor.name, sub: 'movies' }"
       [movieResponse]="movieResponse"
+      [isLoading]="(isLoading$ | async)!"
       (changePage)="onChangePage($event)"
     >
       <nx-the-movies-select-movie-sort-by

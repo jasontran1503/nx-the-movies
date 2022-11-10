@@ -6,7 +6,7 @@ import { MovieService, PersonService } from '@nx-the-movies/shared/data-access/a
 import { ListResponse, Movie, Person } from '@nx-the-movies/shared/data-access/models';
 import { MovieListComponent } from '@nx-the-movies/shared/ui/movie-list';
 import { SelectMovieSortByComponent } from '@nx-the-movies/shared/ui/select-movie-sort-by';
-import { BehaviorSubject, catchError, EMPTY, map, Observable, of, switchMap } from 'rxjs';
+import { BehaviorSubject, catchError, EMPTY, map, Observable, of, switchMap, tap } from 'rxjs';
 
 @Component({
   selector: 'nx-the-movies-actor',
@@ -29,6 +29,7 @@ export class ActorComponent implements OnInit {
 
   actor$!: Observable<Person>;
   movieResponse$!: Observable<ListResponse<Movie> | null>;
+  isLoading$ = new BehaviorSubject<boolean>(true);
 
   ngOnInit(): void {
     this.actor$ = this.personId$.pipe(
@@ -47,7 +48,10 @@ export class ActorComponent implements OnInit {
         )
       ),
       switchMap(({ page, sortBy, personId }) =>
-        this.movieService.getMoviesWithCast(personId, sortBy, page).pipe(catchError(() => of(null)))
+        this.movieService.getMoviesWithCast(personId, sortBy, page).pipe(
+          tap(() => this.isLoading$.next(false)),
+          catchError(() => of(null))
+        )
       )
     );
   }
@@ -57,6 +61,7 @@ export class ActorComponent implements OnInit {
       page: 1,
       sortBy: value
     });
+    this.isLoading$.next(true);
   }
 
   onChangePage(page: number) {
@@ -64,5 +69,6 @@ export class ActorComponent implements OnInit {
       page,
       sortBy: this.filter$.getValue().sortBy
     });
+    this.isLoading$.next(true);
   }
 }

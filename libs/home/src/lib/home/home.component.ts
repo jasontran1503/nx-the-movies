@@ -11,7 +11,7 @@ import { DestroyService } from '@nx-the-movies/shared/common';
 import { MovieService } from '@nx-the-movies/shared/data-access/apis';
 import { ListResponse, Movie } from '@nx-the-movies/shared/data-access/models';
 import { MovieListComponent } from '@nx-the-movies/shared/ui/movie-list';
-import { BehaviorSubject, catchError, of, Subject, switchMap, takeUntil } from 'rxjs';
+import { BehaviorSubject, catchError, of, switchMap, takeUntil } from 'rxjs';
 import { MOVIE_DISCOVER } from './home.constant';
 
 @Component({
@@ -32,13 +32,15 @@ export class HomeComponent implements OnInit {
 
   header = { main: '', sub: '' };
   movieResponse!: ListResponse<Movie>;
-  isLoading$ = new Subject<boolean>();
+  isLoading$ = new BehaviorSubject<boolean>(true);
+  error$ = new BehaviorSubject<boolean>(false);
 
   ngOnInit(): void {
     this.route.queryParams
       .pipe(
         switchMap((params) => {
           this.isLoading$.next(true);
+          this.error$.next(false);
           const key = Object.keys(params)[0];
           if (key) {
             this.header = { main: key, sub: params[key] };
@@ -61,6 +63,7 @@ export class HomeComponent implements OnInit {
 
   onChangePage(page: number) {
     this.page$.next(page);
+    this.isLoading$.next(true);
   }
 
   private loadMoviesData(id: number) {
@@ -76,7 +79,10 @@ export class HomeComponent implements OnInit {
         }
         return this.movieService.getMovies(type, page);
       }),
-      catchError(() => of(null))
+      catchError(() => {
+        this.error$.next(true);
+        return of(null);
+      })
     );
   }
 }
