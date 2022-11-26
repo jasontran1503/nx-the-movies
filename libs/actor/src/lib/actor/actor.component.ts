@@ -6,7 +6,7 @@ import { MovieService, PersonService } from '@nx-the-movies/shared/data-access/a
 import { ListResponse, Movie, Person } from '@nx-the-movies/shared/data-access/models';
 import { MovieListComponent } from '@nx-the-movies/shared/ui/movie-list';
 import { SelectMovieSortByComponent } from '@nx-the-movies/shared/ui/select-movie-sort-by';
-import { BehaviorSubject, catchError, EMPTY, map, Observable, of, switchMap, tap } from 'rxjs';
+import { BehaviorSubject, catchError, map, Observable, of, startWith, switchMap } from 'rxjs';
 
 @Component({
   selector: 'nx-the-movies-actor',
@@ -28,18 +28,14 @@ export class ActorComponent implements OnInit {
   private personId$ = this.route.paramMap.pipe(map((params) => Number(params.get('id'))));
 
   actor$!: Observable<Person>;
-  movieResponse$!: Observable<ListResponse<Movie> | null>;
-  isLoading$ = new BehaviorSubject<boolean>(true);
+  vm$!: Observable<{ movieResponse: ListResponse<Movie> | null; isLoading: boolean }>;
 
   ngOnInit(): void {
     this.actor$ = this.personId$.pipe(
-      switchMap((personId) => {
-        if (!personId) return EMPTY;
-        return this.personService.getPersonBio(personId);
-      })
+      switchMap((personId) => this.personService.getPersonBio(personId))
     );
 
-    this.movieResponse$ = this.personId$.pipe(
+    this.vm$ = this.personId$.pipe(
       switchMap((personId) =>
         this.filter$.pipe(
           map((filter) => {
@@ -49,8 +45,12 @@ export class ActorComponent implements OnInit {
       ),
       switchMap(({ page, sortBy, personId }) =>
         this.movieService.getMoviesWithCast(personId, sortBy, page).pipe(
-          tap(() => this.isLoading$.next(false)),
-          catchError(() => of(null))
+          map((movieResponse) => ({
+            movieResponse,
+            isLoading: false
+          })),
+          catchError(() => of({ movieResponse: null, isLoading: false })),
+          startWith({ movieResponse: null, isLoading: true })
         )
       )
     );
@@ -61,7 +61,6 @@ export class ActorComponent implements OnInit {
       page: 1,
       sortBy: value
     });
-    this.isLoading$.next(true);
   }
 
   onChangePage(page: number) {
@@ -69,6 +68,5 @@ export class ActorComponent implements OnInit {
       page,
       sortBy: this.filter$.getValue().sortBy
     });
-    this.isLoading$.next(true);
   }
 }

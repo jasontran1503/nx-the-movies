@@ -21,11 +21,11 @@
     </div>
   </div>
 
-  <ng-container *ngIf="movieResponse$ | async as movieResponse">
+  <ng-container *ngIf="vm$ | async as vm">
     <nx-the-movies-movie-list
       [header]="{ main: actor.name, sub: 'movies' }"
-      [movieResponse]="movieResponse"
-      [isLoading]="(isLoading$ | async)!"
+      [movieResponse]="vm.movieResponse!"
+      [isLoading]="vm.isLoading"
       (changePage)="onChangePage($event)"
     >
       <nx-the-movies-select-movie-sort-by
